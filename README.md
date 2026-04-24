@@ -1,5 +1,7 @@
 # Шпаргалка по паттернам в TypeScript
 
+Репозиторий с задачами и решениями по TypeScript [type challenges](https://github.com/type-challenges/type-challenges)
+
 Как типы выбирают и извлекают
 
 - [Conditional types](#conditional-types)
@@ -1010,11 +1012,11 @@ type TClient = {
 type TApiBuilder<HasUrl extends boolean = false, HasAuth extends Boolean = false> =
   HasUrl extends true
     ? HasAuth extends true
-      ? TClient
-      : { setAuth: (authToken: string) => TApiBuilder<HasUrl, true> }
-    : HasAuth extends true
+      ? TClient // идеальный случай, все данные собраны
+      : { setAuth: (authToken: string) => TApiBuilder<HasUrl, true> } // урл есть, авторизации нет
+    : HasAuth extends true // урла нет, авторизация есть 
       ? { setUrl: (url: string) => TApiBuilder<true, HasAuth> }
-      : {
+      : { // урла нет, авторизации нет
         setAuth: (authToken: string) => TApiBuilder<HasUrl, true>,
         setUrl: (url: string) => TApiBuilder<true, HasAuth>
       };
